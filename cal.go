@@ -6,17 +6,24 @@ import (
 	"fmt"
 	"log"
 	"net/http"
+	"os"
 	"time"
 )
 
 const (
 	MAX_MONTH_DAY = 35
 	HOLYDAY_API = "https://calendrier.api.gouv.fr/jours-feries/metropole/%d.json"
+	TAG_MESSAGE = "\tyear\tthe year of the calendar\n\tmonth\tthe month of the calendar\n"
 )
 
 var holydayDays map[string]string
 
 func main(){
+	helpFlag := flag.ErrHelp
+	if helpFlag != nil{
+		fmt.Printf("\033[38;5;208mThe commands are:\033[0m\n%s", TAG_MESSAGE)
+		os.Exit(0)
+	}
 	today := time.Now()
 	year := flag.Int("year", today.Year(), "calendar year")
 	month := flag.Int("month", int(today.Month()), "calendar month")
@@ -49,12 +56,13 @@ func fetch_holydays(year int, month int){
 }
 
 func buildCalendar(year int, month int, today time.Time){
+	monthName := []string{"Janvier", "Février", "Mars", "Avril", "Mai", "Juin", "Juillet", "Août", "Septembre", "Octobre", "Novembre", "Décembre"}
 	calendarLoop := time.Date(year, time.Month(month), 1, 0,0,0,0, time.UTC)
 	//Center Month Name
 	for i := 0; i < (21 - len(calendarLoop.Month().String())) / 2; i++{
 		fmt.Print(" ")
 	} 
-	fmt.Printf("\033[31m%s\033[0m\n",calendarLoop.Month())
+	fmt.Printf("\033[31m%s\033[0m\n", monthName[int(calendarLoop.Month())])
 	fmt.Printf("\033[33mL  M  M  J  V  S  D\033[0m\n")
 
 	//Print empty space for the first days if needed
