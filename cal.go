@@ -22,14 +22,6 @@ func main(){
 	year := flag.Int("year", today.Year(), "calendar year")
 	month := flag.Int("month", int(today.Month()), "calendar month")
 	flag.Parse()
-	//helpFlag := flag.ErrHelp
-	//fmt.Println(helpFlag)
-	//if helpFlag != nil{
-	//	fmt.Printf("\033[38;5;208mThe commands are:\033[0m\n%s", TAG_MESSAGE)
-	//	os.Exit(0)
-	//}else{
-	//	fmt.Println("no help")
-	//}
 	buildCalendar(*year, *month, today)
 	fetch_holydays(*year, *month)
 }
@@ -89,7 +81,7 @@ func buildCalendar(year int, month int, today time.Time){
 		if dynamicCalendar.Day() < 10{
 			if isToday{
 				if dynamicCalendar.Weekday() == time.Sunday{
-					fmt.Printf("\033[36m%d\033[0m  \n", dynamicCalendar.Day())
+					fmt.Printf("\033[46;30m%d\033[0m\n ", dynamicCalendar.Day())
 				}else{
 					fmt.Printf("\033[36m%d\033[0m  ", dynamicCalendar.Day())
 				}
@@ -103,7 +95,7 @@ func buildCalendar(year int, month int, today time.Time){
 		}
 		if dynamicCalendar.Weekday() == time.Sunday && dynamicCalendar.Day() != 1{
 			if isToday{
-				fmt.Printf("\033[36m%d\033[0m\n", dynamicCalendar.Day())
+				fmt.Printf("\033[46;30m%d\033[0m\n ", dynamicCalendar.Day())
 			}else{
 				fmt.Printf("%d\n", dynamicCalendar.Day())
 			}
